@@ -47,6 +47,9 @@ namespace GameEngine.Engine
             window.Text = this.window_Title;
             window.Paint += Renderer;
 
+            window.KeyDown += KeyDown;
+            window.KeyUp += KeyUp;
+
             //Start new thread for main loop
             Log.DebugLog("Started game loop");
             GameLoopThread = new Thread(GameLoop);
@@ -54,6 +57,16 @@ namespace GameEngine.Engine
 
             //Open the new window
             Application.Run(window);
+        }
+
+        private void KeyUp(object sender, KeyEventArgs e)
+        {
+            GetKeyUp(e);
+        }
+
+        private void KeyDown(object sender, KeyEventArgs e)
+        {
+            GetKeyDown(e);
         }
 
         public static void RegisterShapes(Shape2D shape)
@@ -123,5 +136,7 @@ namespace GameEngine.Engine
         public abstract void OnLoad();
         public abstract void Update(); //Handles movement/physics
         public abstract void OnDraw(); //Handles drawing
+        public abstract void GetKeyDown(KeyEventArgs e); //Handles key press
+        public abstract void GetKeyUp(KeyEventArgs e); //Handles key release
     }
 }
