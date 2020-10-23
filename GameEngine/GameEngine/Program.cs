@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GameEngine
+namespace GameEngine.Engine
 {
     class Program
     {
