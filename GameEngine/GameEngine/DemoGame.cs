@@ -13,7 +13,7 @@ namespace GameEngine.Engine
     class DemoGame : Engine
     {
         Shape2D player;
-        float moveSpeed=1;
+        float moveSpeed = 0.5f;
 
         bool up, down, left, right;
 
