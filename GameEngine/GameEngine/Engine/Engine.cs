@@ -28,7 +28,7 @@ namespace GameEngine.Engine
         public Color backgroundColor = Color.Black;
 
         private static List<Shape2D> allShapes = new List<Shape2D>();
-
+        private static List<Sprite> allSprites = new List<Sprite>();
 
         public Engine(Vector2 screenSize, string title)
         {
@@ -65,6 +65,18 @@ namespace GameEngine.Engine
             allShapes.Remove(shape);
         }
 
+        public static void RegisterSprites(Sprite sprite)
+        {
+            Log.DebugLog($"Registered new shape: {sprite.tag}");
+            allSprites.Add(sprite);
+        }
+
+        public static void DeregisterSprite(Sprite sprite)
+        {
+            Log.DebugLog($"Deregistered shape: {sprite.tag}");
+            allSprites.Remove(sprite);
+        }
+
         void GameLoop()
         {
             OnLoad(); //Load assets before main loop begins
@@ -79,7 +91,7 @@ namespace GameEngine.Engine
                 }
                 catch
                 {
-                    Log.DebugWarning("Window is loading");
+                    Log.DebugWarning("Game window could not be found");
                 }
             }
         }
@@ -90,9 +102,14 @@ namespace GameEngine.Engine
 
             g.Clear(backgroundColor); //Set background color
 
-            foreach(Shape2D shape in allShapes)
+            foreach (Shape2D shape in allShapes)
             {
                 g.FillRectangle(new SolidBrush(shape.shapeColor), shape.position.x, shape.position.y, shape.scale.x, shape.scale.y);
+            }
+
+            foreach (Sprite sprite in allSprites)
+            {
+                g.DrawImage(sprite.sprite, sprite.position.x, sprite.position.y, sprite.scale.x, sprite.scale.y);
             }
         }
 

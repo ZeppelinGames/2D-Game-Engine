@@ -5,6 +5,8 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Windows.Input;
 
 namespace GameEngine.Engine
 {
@@ -15,7 +17,7 @@ namespace GameEngine.Engine
 
         public override void OnLoad()
         {
-            Console.WriteLine("OnLoad called");
+            Log.DebugLog("OnLoad called");
             backgroundColor = Color.Black;
 
             player = new Shape2D(new Vector2(), new Vector2(10, 10), "Player", Color.Red);
@@ -23,7 +25,7 @@ namespace GameEngine.Engine
 
         public override void Update()
         {
-            player.position.x += 1;
+           
         }
 
         public override void OnDraw()

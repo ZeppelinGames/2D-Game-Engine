@@ -10,7 +10,7 @@ namespace GameEngine.Engine
     {
         public static void DebugLog(string msg)
         {
-            Console.ForegroundColor = ConsoleColor.White;
+            Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine($"[{DateTime.Now.ToString("HH:mm:ss")}] [LOG] - {msg}");
             Console.ForegroundColor = ConsoleColor.White;
         }
