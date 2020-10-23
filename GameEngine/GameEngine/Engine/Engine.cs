@@ -32,6 +32,7 @@ namespace GameEngine.Engine
 
         public Engine(Vector2 screenSize, string title)
         {
+            Log.DebugLog("Game is starting");
             this.screenSize = screenSize;
             this.window_Title = title;
 
@@ -44,6 +45,7 @@ namespace GameEngine.Engine
             window.Paint += Renderer;
 
             //Start new thread for main loop
+            Log.DebugLog("Started game loop");
             GameLoopThread = new Thread(GameLoop);
             GameLoopThread.Start();
 
@@ -53,7 +55,14 @@ namespace GameEngine.Engine
 
         public static void RegisterShapes(Shape2D shape)
         {
+            Log.DebugLog($"Registered new shape: {shape.tag}");
             allShapes.Add(shape);
+        }
+
+        public static void DeregisterShape(Shape2D shape)
+        {
+            Log.DebugLog($"Deregistered shape: {shape.tag}");
+            allShapes.Remove(shape);
         }
 
         void GameLoop()
@@ -70,7 +79,7 @@ namespace GameEngine.Engine
                 }
                 catch
                 {
-                    Console.WriteLine("Game is loading");
+                    Log.DebugWarning("Window is loading");
                 }
             }
         }
@@ -78,7 +87,13 @@ namespace GameEngine.Engine
         private void Renderer(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
-            g.Clear(backgroundColor);
+
+            g.Clear(backgroundColor); //Set background color
+
+            foreach(Shape2D shape in allShapes)
+            {
+                g.FillRectangle(new SolidBrush(shape.shapeColor), shape.position.x, shape.position.y, shape.scale.x, shape.scale.y);
+            }
         }
 
         public abstract void OnLoad();
