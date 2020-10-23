@@ -11,21 +11,21 @@ namespace GameEngine.Engine
         public static void DebugLog(string msg)
         {
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine($"[{DateTime.Now.TimeOfDay}] [LOG] - {msg}");
+            Console.WriteLine($"[{DateTime.Now.ToString("HH:mm:ss")}] [LOG] - {msg}");
             Console.ForegroundColor = ConsoleColor.White;
         }
 
         public static void DebugWarning(string msg)
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine($"[{DateTime.Now.TimeOfDay}] [WARNING] - {msg}");
+            Console.WriteLine($"[{DateTime.Now.ToString("HH: mm:ss")}] [WARNING] - {msg}");
             Console.ForegroundColor = ConsoleColor.White;
         }
 
         public static void DebugError(string msg)
         {
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"[{DateTime.Now.TimeOfDay}] [ERROR] - {msg}");
+            Console.WriteLine($"[{DateTime.Now.ToString("HH: mm:ss")}] [ERROR] - {msg}");
             Console.ForegroundColor = ConsoleColor.White;
         }
     }
