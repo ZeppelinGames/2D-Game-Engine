@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace GameEngine
 {
@@ -27,7 +29,7 @@ namespace GameEngine
         /// <returns></returns>
         public static Vector2 Zero()
         {
-            return new Vector2(0, 0);   
+            return new Vector2(0, 0);
         }
     }
 }
