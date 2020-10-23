@@ -31,5 +31,17 @@ namespace GameEngine.Engine
         {
             Engine.DeregisterShape(this);
         }
+
+        public bool isColliding(Shape2D a, Shape2D b)
+        {
+            if (a.position.x <= b.position.x &&
+                a.scale.x >= b.scale.x &&
+                a.position.y <= b.position.y &&
+                a.scale.y >= b.scale.y)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }
