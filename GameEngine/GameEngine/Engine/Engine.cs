@@ -30,6 +30,9 @@ namespace GameEngine.Engine
         private static List<Shape2D> allShapes = new List<Shape2D>();
         private static List<Sprite> allSprites = new List<Sprite>();
 
+        public Vector2 cameraPosition = new Vector2();
+        public float cameraRotation = 0f;
+
         public Engine(Vector2 screenSize, string title)
         {
             Log.DebugLog("Game is starting");
@@ -101,12 +104,16 @@ namespace GameEngine.Engine
             Graphics g = e.Graphics;
 
             g.Clear(backgroundColor); //Set background color
+            g.TranslateTransform(cameraPosition.x, cameraPosition.y); //Update camera position
+            g.RotateTransform(cameraRotation); //Update camera rotation
 
+            //Draw all registered shapes
             foreach (Shape2D shape in allShapes)
             {
                 g.FillRectangle(new SolidBrush(shape.shapeColor), shape.position.x, shape.position.y, shape.scale.x, shape.scale.y);
             }
 
+            //Draw all registered sprites
             foreach (Sprite sprite in allSprites)
             {
                 g.DrawImage(sprite.sprite, sprite.position.x, sprite.position.y, sprite.scale.x, sprite.scale.y);
