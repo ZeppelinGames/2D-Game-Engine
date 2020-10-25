@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms.VisualStyles;
+using System.Configuration;
 
 namespace GameEngine.Engine
 {
@@ -29,6 +30,7 @@ namespace GameEngine.Engine
 
         private static List<Shape2D> allShapes = new List<Shape2D>();
         private static List<Sprite> allSprites = new List<Sprite>();
+        private static List<CustomSprite> allCustomSprites = new List<CustomSprite>();
 
         public Vector2 cameraPosition = new Vector2();
         public float cameraRotation = 0f;
@@ -93,6 +95,18 @@ namespace GameEngine.Engine
             allSprites.Remove(sprite);
         }
 
+        public static void RegisterCustomSprite(CustomSprite sprite)
+        {
+            Log.DebugLog($"Registered new shape: {sprite.tag}");
+            allCustomSprites.Add(sprite);
+        }
+
+        public static void DeregisterCustomSprite(CustomSprite sprite)
+        {
+            Log.DebugLog($"Deregistered shape: {sprite.tag}");
+            allCustomSprites.Remove(sprite);
+        }
+
         void GameLoop()
         {
             OnLoad(); //Load assets before main loop begins
@@ -130,6 +144,25 @@ namespace GameEngine.Engine
             foreach (Sprite sprite in allSprites)
             {
                 g.DrawImage(sprite.sprite, sprite.position.x, sprite.position.y, sprite.scale.x, sprite.scale.y);
+            }
+
+            foreach (CustomSprite sprite in allCustomSprites)
+            {
+                int[][] spriteArray = sprite.spriteArray;
+
+                for (int y = 0; y < spriteArray.Length; y++)
+                {
+                    for (int x = 0; x < spriteArray[y].Length; x++)
+                    {
+                        if (spriteArray[y][x] != 0)
+                        {
+                            float posX = (sprite.position.x + (x*sprite.scale.x)) - (spriteArray[y].Length / 2);
+                            float posY = (sprite.position.y + (y*sprite.scale.y)) - (spriteArray.Length / 2);
+
+                            g.FillRectangle(new SolidBrush(sprite.shapeColor), posX, posY, sprite.scale.x, sprite.scale.y);
+                        }
+                    }
+                }
             }
         }
 

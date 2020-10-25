@@ -12,7 +12,7 @@ namespace GameEngine.Engine
 {
     class DemoGame : Engine
     {
-        Shape2D player;
+        CustomSprite player;
         float moveSpeed = 0.5f;
 
         bool up, down, left, right;
@@ -24,7 +24,7 @@ namespace GameEngine.Engine
             Log.DebugLog("OnLoad called");
             backgroundColor = Color.Black;
 
-            player = new Shape2D(new Vector2(), new Vector2(10, 10), "Player", Color.Red);
+            player = new CustomSprite(new Vector2(), new Vector2(5, 5), "Player", Color.White);
         }
 
         public override void Update()
