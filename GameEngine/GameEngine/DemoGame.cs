@@ -13,11 +13,12 @@ namespace GameEngine.Engine
     class DemoGame : Engine
     {
         CustomSprite player;
+        Shape2D wall;
         float moveSpeed = 0.5f;
 
         bool up, down, left, right;
 
-        public DemoGame() : base(new Vector2(800, 600), "New Game") { }
+        public DemoGame() : base(new Vector2(960, 540), "Demo Game") { }
 
         public override void OnLoad()
         {
@@ -32,6 +33,8 @@ namespace GameEngine.Engine
                 new int[] { 1, 1, 1, 1, 1}
                 },
                 new Vector2(), new Vector2(5, 5), "Player", new Color[] { Color.Transparent, Color.White, Color.Red, Color.Blue });
+
+            wall = new Shape2D(new Vector2(50, 50), new Vector2(25, 25), "Wall", Color.White);
         }
 
         public override void Update()

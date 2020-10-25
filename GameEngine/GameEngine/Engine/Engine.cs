@@ -73,37 +73,37 @@ namespace GameEngine.Engine
 
         public static void RegisterShapes(Shape2D shape)
         {
-            Log.DebugLog($"Registered new shape: {shape.tag}");
+            Log.DebugLog($"[SHAPE]({shape.tag}) has been registered");
             allShapes.Add(shape);
         }
 
         public static void DeregisterShape(Shape2D shape)
         {
-            Log.DebugLog($"Deregistered shape: {shape.tag}");
+            Log.DebugLog($"[SHAPE]({shape.tag}) has been removed from register");
             allShapes.Remove(shape);
         }
 
         public static void RegisterSprites(Sprite sprite)
         {
-            Log.DebugLog($"Registered new shape: {sprite.tag}");
+            Log.DebugLog($"[SPRITE]({sprite.tag}) has been registered");
             allSprites.Add(sprite);
         }
 
         public static void DeregisterSprite(Sprite sprite)
         {
-            Log.DebugLog($"Deregistered shape: {sprite.tag}");
+            Log.DebugLog($"[SPRITE]({sprite.tag}) has been removed from register");
             allSprites.Remove(sprite);
         }
 
         public static void RegisterCustomSprite(CustomSprite sprite)
         {
-            Log.DebugLog($"Registered new shape: {sprite.tag}");
+            Log.DebugLog($"[CUSTOM SPRITE]({sprite.tag}) has been registered");
             allCustomSprites.Add(sprite);
         }
 
         public static void DeregisterCustomSprite(CustomSprite sprite)
         {
-            Log.DebugLog($"Deregistered shape: {sprite.tag}");
+            Log.DebugLog($"[CUSTOM SPRITE]({sprite.tag}) has been removed from register");
             allCustomSprites.Remove(sprite);
         }
 

@@ -16,11 +16,37 @@ namespace GameEngine.Engine
         public string tag = "";
         public Bitmap sprite= null;
 
-
+        /// <summary>
+        /// Creates new sprite
+        /// </summary>
+        /// <param name="position"></param>
+        /// <param name="scale"></param>
+        /// <param name="directory"></param>
+        /// <param name="tag"></param>
         public Sprite(Vector2 position, Vector2 scale,string directory, string tag)
         {
             this.position = position;
             this.scale = scale;
+
+            this.directory = directory;
+            this.tag = tag;
+
+            Image tmp = Image.FromFile($"Assets/Sprites/{directory}.png");
+            Bitmap sprite = new Bitmap(tmp, (int)this.scale.x, (int)this.scale.y);
+            this.sprite = sprite;
+
+            Engine.RegisterSprites(this);
+        }
+
+        /// <summary>
+        /// Creates new sprite at (0,0) with a scale of (10,10)
+        /// </summary>
+        /// <param name="directory"></param>
+        /// <param name="tag"></param>
+        public Sprite(string directory, string tag)
+        {
+            this.position = new Vector2();
+            this.scale = new Vector2(10,10);
 
             this.directory = directory;
             this.tag = tag;
