@@ -32,8 +32,8 @@ namespace GameEngine.Engine
                 new int[] { 3, 1, 3, 1, 3},
                 new int[] { 2, 0, 2, 0, 2},
                 new int[] { 1, 1, 1, 1, 1}
-                },
-                new Vector2(), new Vector2(5, 5), "Player", new Color[] { Color.Transparent, Color.White, Color.Red, Color.Blue }));
+                }, new Color[] { Color.Transparent, Color.White, Color.Red, Color.Blue }));
+            playerGO.AddComponent(new Collider2D());
         }
 
         public override void Update()
@@ -57,7 +57,7 @@ namespace GameEngine.Engine
             }
 
             playerGO.position += moveDir * moveSpeed;
-            Log.DebugLog($"X:{playerGO.position.x}, Y:{playerGO.position.y}");
+            //Log.DebugLog($"X:{playerGO.position.x}, Y:{playerGO.position.y}");
         }
 
         public override void OnDraw()

@@ -11,12 +11,6 @@ namespace GameEngine.Engine
         public Vector2 position;
         public Vector2 scale;
 
-        public Collider2D(Vector2 position, Vector2 scale)
-        {
-            this.position = position;
-            this.scale = scale;
-        }
-
         public bool isCollidingSprite(Collider2D b)
         {
             if (position.x <= b.position.x &&

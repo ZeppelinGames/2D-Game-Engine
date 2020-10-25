@@ -23,35 +23,23 @@ namespace GameEngine.Engine
 
         public Color[] shapeColor;
 
-        public CustomSprite(int[][] spriteArray, Vector2 position, Vector2 scale, string tag, Color shapeColor)
+        public CustomSprite(int[][] spriteArray, Color shapeColor)
         {
             this.spriteArray = spriteArray;
-
-            this.position = position;
-            this.scale = scale;
-
-            this.tag = tag;
-
             this.shapeColor[0] = shapeColor;
 
             Engine.RegisterCustomSprite(this);
         }
 
-        public CustomSprite(int[][] spriteArray, Vector2 position, Vector2 scale, string tag, Color[] shapeColors)
+        public CustomSprite(int[][] spriteArray, Color[] shapeColors)
         {
             this.spriteArray = spriteArray;
-
-            this.position = position;
-            this.scale = scale;
-
-            this.tag = tag;
-
             this.shapeColor = shapeColors;
 
             Engine.RegisterCustomSprite(this);
         }
 
-        public CustomSprite(Vector2 position, Vector2 scale, string tag, Color shapeColor)
+        public CustomSprite()
         {
             this.spriteArray = new int[][] {
                 new int[] { 1, 0, 0, 0, 1 },
@@ -61,12 +49,7 @@ namespace GameEngine.Engine
                 new int[] { 1, 0, 0, 0, 1 }
             };
 
-            this.position = position;
-            this.scale = scale;
-
-            this.tag = tag;
-
-            this.shapeColor[0] = shapeColor;
+            this.shapeColor[0] = Color.Pink;
 
             Engine.RegisterCustomSprite(this);
         }

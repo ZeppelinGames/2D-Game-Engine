@@ -44,13 +44,13 @@ namespace GameEngine.Engine
 
                 componentPos = this.position;
                 componentScale = this.scale;
-                Log.DebugLog("SET POSITION");
             }
             catch { Log.DebugWarning("Unable to get position and scale of component"); }
 
             //Try register component
             try { Engine.RegisterSprites(component); } catch { }
             try { Engine.RegisterShapes(component); } catch { }
+            try { Engine.RegisterCustomSprite(component); } catch { }
 
             components.Add(component);
         }

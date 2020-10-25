@@ -169,8 +169,6 @@ namespace GameEngine.Engine
                     {
                         component.position = GO.position;
                         component.scale = GO.scale;
-
-                        Log.DebugLog($"SET POS TO X:{component.position.x}, Y:{component.position.y}");
                     }
                     catch { Log.DebugWarning("Unable to get position and scale of component"); }
                 }
