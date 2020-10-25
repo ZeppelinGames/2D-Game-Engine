@@ -53,10 +53,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DemoGame.cs" />
+    <Compile Include="Engine\Collider2D.cs" />
     <Compile Include="Engine\CustomSprite.cs" />
     <Compile Include="Engine\Engine.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Engine\GameObject.cs" />
     <Compile Include="Engine\Log.cs" />
     <Compile Include="Engine\Shape2D.cs" />
     <Compile Include="Engine\Sprite.cs" />

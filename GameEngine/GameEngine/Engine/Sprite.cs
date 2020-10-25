@@ -58,18 +58,6 @@ namespace GameEngine.Engine
             Engine.RegisterSprites(this);
         }
 
-        public bool isColliding(Sprite a, Sprite b)
-        {
-            if (a.position.x <= b.position.x &&
-                a.scale.x >= b.scale.x &&
-                a.position.y <= b.position.y &&
-                a.scale.y >= b.scale.y)
-            {
-                return true;
-            }
-            return false;
-        }
-
         public void Destroy()
         {
             Engine.DeregisterSprite(this);

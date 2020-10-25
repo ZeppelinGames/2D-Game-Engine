@@ -8,6 +8,7 @@ using System.Drawing;
 using System.Threading;
 using System.Windows.Forms.VisualStyles;
 using System.Configuration;
+using System.Diagnostics;
 
 namespace GameEngine.Engine
 {
@@ -28,6 +29,7 @@ namespace GameEngine.Engine
 
         public Color backgroundColor = Color.Black;
 
+        private static List<GameObject> allGameObjects = new List<GameObject>();
         private static List<Shape2D> allShapes = new List<Shape2D>();
         private static List<Sprite> allSprites = new List<Sprite>();
         private static List<CustomSprite> allCustomSprites = new List<CustomSprite>();
@@ -35,6 +37,7 @@ namespace GameEngine.Engine
         public Vector2 cameraPosition = new Vector2();
         public float cameraRotation = 0f;
 
+        #region Engine Setup
         public Engine(Vector2 screenSize, string title)
         {
             Log.DebugLog("Game is starting");
@@ -52,6 +55,8 @@ namespace GameEngine.Engine
             window.KeyDown += KeyDown;
             window.KeyUp += KeyUp;
 
+            window.FormClosing += Window_FormClosing;
+
             //Start new thread for main loop
             Log.DebugLog("Started game loop");
             GameLoopThread = new Thread(GameLoop);
@@ -61,6 +66,14 @@ namespace GameEngine.Engine
             Application.Run(window);
         }
 
+        private void Window_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            GameLoopThread.Abort();
+            Log.DebugLog("[GAME] Ending game process");
+        }
+
+        #endregion
+
         private void KeyUp(object sender, KeyEventArgs e)
         {
             GetKeyUp(e);
@@ -69,6 +82,18 @@ namespace GameEngine.Engine
         private void KeyDown(object sender, KeyEventArgs e)
         {
             GetKeyDown(e);
+        }
+
+        #region Register classes
+        public static void RegisterGameObject(GameObject GO)
+        {
+            Log.DebugLog($"[GAMEOBJECT]({GO.name}) has been registered");
+            allGameObjects.Add(GO);
+        }
+        public static void DeregisterGameObject(GameObject GO)
+        {
+            Log.DebugLog($"[GAMEOBJECT]({GO.name}) has been removed from register");
+            allGameObjects.Add(GO);
         }
 
         public static void RegisterShapes(Shape2D shape)
@@ -106,7 +131,9 @@ namespace GameEngine.Engine
             Log.DebugLog($"[CUSTOM SPRITE]({sprite.tag}) has been removed from register");
             allCustomSprites.Remove(sprite);
         }
+        #endregion
 
+        #region Game Loop + Rendering
         void GameLoop()
         {
             OnLoad(); //Load assets before main loop begins
@@ -133,6 +160,21 @@ namespace GameEngine.Engine
             g.Clear(backgroundColor); //Set background color
             g.TranslateTransform(cameraPosition.x, cameraPosition.y); //Update camera position
             g.RotateTransform(cameraRotation); //Update camera rotation
+
+            foreach(GameObject GO in allGameObjects)
+            {
+                foreach (dynamic component in GO.components)
+                {
+                    try
+                    {
+                        component.position = GO.position;
+                        component.scale = GO.scale;
+
+                        Log.DebugLog($"SET POS TO X:{component.position.x}, Y:{component.position.y}");
+                    }
+                    catch { Log.DebugWarning("Unable to get position and scale of component"); }
+                }
+            }
 
             //Draw all registered shapes
             foreach (Shape2D shape in allShapes)
@@ -171,11 +213,14 @@ namespace GameEngine.Engine
                 }
             }
         }
+        #endregion
 
+        #region Game voids
         public abstract void OnLoad();
         public abstract void Update(); //Handles movement/physics
         public abstract void OnDraw(); //Handles drawing
         public abstract void GetKeyDown(KeyEventArgs e); //Handles key press
         public abstract void GetKeyUp(KeyEventArgs e); //Handles key release
+        #endregion
     }
 }

@@ -17,12 +17,12 @@ namespace GameEngine.Engine
             this.scale = scale;
         }
 
-        public bool isCollidingSprite(Collider2D a, Sprite b)
+        public bool isCollidingSprite(Collider2D b)
         {
-            if (a.position.x <= b.position.x &&
-                a.scale.x >= b.scale.x &&
-                a.position.y <= b.position.y &&
-                a.scale.y >= b.scale.y)
+            if (position.x <= b.position.x &&
+                scale.x >= b.scale.x &&
+                position.y <= b.position.y &&
+                scale.y >= b.scale.y)
             {
                 return true;
             }
