@@ -21,7 +21,7 @@ namespace GameEngine.Engine
         public Vector2 scale = new Vector2(1, 1);
         public string tag = "";
 
-        public Color shapeColor;
+        public Color[] shapeColor;
 
         public CustomSprite(int[][] spriteArray, Vector2 position, Vector2 scale, string tag, Color shapeColor)
         {
@@ -32,7 +32,21 @@ namespace GameEngine.Engine
 
             this.tag = tag;
 
-            this.shapeColor = shapeColor;
+            this.shapeColor[0] = shapeColor;
+
+            Engine.RegisterCustomSprite(this);
+        }
+
+        public CustomSprite(int[][] spriteArray, Vector2 position, Vector2 scale, string tag, Color[] shapeColors)
+        {
+            this.spriteArray = spriteArray;
+
+            this.position = position;
+            this.scale = scale;
+
+            this.tag = tag;
+
+            this.shapeColor = shapeColors;
 
             Engine.RegisterCustomSprite(this);
         }
@@ -40,11 +54,11 @@ namespace GameEngine.Engine
         public CustomSprite(Vector2 position, Vector2 scale, string tag, Color shapeColor)
         {
             this.spriteArray = new int[][] {
-                new int[] { 1, 1, 1, 1, 1 },
                 new int[] { 1, 0, 0, 0, 1 },
-                new int[] { 1, 0, 1, 0, 1 },
-                new int[] { 1, 0, 0, 0, 1 },
-                new int[] { 1, 1, 1, 1, 1 }
+                new int[] { 0, 1, 0, 1, 0 },
+                new int[] { 0, 0, 1, 0, 0 },
+                new int[] { 0, 1, 0, 1, 0 },
+                new int[] { 1, 0, 0, 0, 1 }
             };
 
             this.position = position;
@@ -52,7 +66,7 @@ namespace GameEngine.Engine
 
             this.tag = tag;
 
-            this.shapeColor = shapeColor;
+            this.shapeColor[0] = shapeColor;
 
             Engine.RegisterCustomSprite(this);
         }

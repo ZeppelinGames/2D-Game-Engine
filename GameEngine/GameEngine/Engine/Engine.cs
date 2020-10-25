@@ -156,10 +156,16 @@ namespace GameEngine.Engine
                     {
                         if (spriteArray[y][x] != 0)
                         {
+                            int color = spriteArray[y][x];
+                            if(color >= sprite.shapeColor.Length)
+                            {
+                                color = sprite.shapeColor.Length-1;
+                            }
+
                             float posX = (sprite.position.x + (x*sprite.scale.x)) - (spriteArray[y].Length / 2);
                             float posY = (sprite.position.y + (y*sprite.scale.y)) - (spriteArray.Length / 2);
 
-                            g.FillRectangle(new SolidBrush(sprite.shapeColor), posX, posY, sprite.scale.x, sprite.scale.y);
+                            g.FillRectangle(new SolidBrush(sprite.shapeColor[color]), posX, posY, sprite.scale.x, sprite.scale.y);
                         }
                     }
                 }
