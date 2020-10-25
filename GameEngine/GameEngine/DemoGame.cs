@@ -24,7 +24,14 @@ namespace GameEngine.Engine
             Log.DebugLog("OnLoad called");
             backgroundColor = Color.Black;
 
-            player = new CustomSprite(new Vector2(), new Vector2(5, 5), "Player", Color.White);
+            player = new CustomSprite(new int[][] {
+                new int[] { 1, 0, 0, 0, 1},
+                new int[] { 2, 2, 2, 2, 2},
+                new int[] { 3, 1, 3, 1, 3},
+                new int[] { 2, 0, 2, 0, 2},
+                new int[] { 1, 1, 1, 1, 1}
+                },
+                new Vector2(), new Vector2(5, 5), "Player", new Color[] { Color.Transparent, Color.White, Color.Red, Color.Blue });
         }
 
         public override void Update()
