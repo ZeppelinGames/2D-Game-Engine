@@ -9,7 +9,7 @@ namespace GameEngine.Engine
     public class Collider2D
     {
         public Vector2 position = new Vector2();
-        public Vector2 scale = new Vector2(10, 10);
+        public Vector2 scale = new Vector2();
 
         public Collider2D()
         {

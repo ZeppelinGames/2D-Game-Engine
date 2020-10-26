@@ -74,8 +74,6 @@ namespace GameEngine.Engine
                     {
                         if (thisCol.isColliding(col))
                         {   
-                            Log.DebugLog("COLLIDED");
-
                             Vector2 colDir = col.position - this.position;
                             Vector2 normColDir = Vector2.Flatten(colDir);
                             
