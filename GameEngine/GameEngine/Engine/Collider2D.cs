@@ -8,19 +8,27 @@ namespace GameEngine.Engine
 {
     public class Collider2D
     {
-        public Vector2 position;
-        public Vector2 scale;
+        public Vector2 position = new Vector2();
+        public Vector2 scale = new Vector2(10, 10);
 
-        public bool isCollidingSprite(Collider2D b)
+        public Collider2D()
         {
-            if (position.x <= b.position.x &&
-                scale.x >= b.scale.x &&
-                position.y <= b.position.y &&
-                scale.y >= b.scale.y)
+            Engine.RegisterCollider(this);
+        }
+
+        public bool isColliding(Collider2D b)
+        {
+            if ((Math.Abs((position.x + scale.x / 2) - (b.position.x + b.scale.x / 2)) * 2 < (scale.x + b.scale.x)) &&
+                 (Math.Abs((position.y + scale.y / 2) - (b.position.y + b.scale.y / 2)) * 2 < (scale.y + b.scale.y)))
             {
                 return true;
             }
             return false;
+        }
+
+        public void Destroy()
+        {
+            Engine.DeregisterCollider(this);
         }
     }
 }

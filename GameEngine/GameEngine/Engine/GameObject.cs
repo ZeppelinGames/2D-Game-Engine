@@ -5,6 +5,9 @@ using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
+using System.Diagnostics;
+using System.Data.SqlClient;
+using System.Windows.Forms;
 
 namespace GameEngine.Engine
 {
@@ -19,6 +22,13 @@ namespace GameEngine.Engine
 
         public List<dynamic> components = new List<dynamic>();
 
+        /// <summary>
+        /// Creates new GameObject
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="tag"></param>
+        /// <param name="position"></param>
+        /// <param name="scale"></param>
         public GameObject(string name, string tag, Vector2 position, Vector2 scale)
         {
             this.name = name;
@@ -30,8 +40,96 @@ namespace GameEngine.Engine
             Engine.RegisterGameObject(this);
         }
 
+        /// <summary>
+        /// Creates new GameObject at (0,0)
+        /// </summary>
+        /// <param name="name"></param>
+        public GameObject(string name)
+        {
+            this.name = name;
+            this.tag = "Default";
+
+            this.position = new Vector2();
+            this.scale = new Vector2(10,10);
+
+            Engine.RegisterGameObject(this);
+        }
+
+        /// <summary>
+        /// Move GameObject in a direction using collisions
+        /// </summary>
+        /// <param name="movePosition"></param>
+        public void Move(Vector2 moveDirection)
+        {
+            foreach (Collider2D col in Engine.allColliders)
+            {
+                Collider2D thisCol = null;
+                foreach (dynamic component in components)
+                {
+                    try { thisCol = component; } catch { }
+                }
+                if (thisCol != null)
+                {
+                    if (thisCol != col)
+                    {
+                        if (thisCol.isColliding(col))
+                        {   
+                            Log.DebugLog("COLLIDED");
+
+                            Vector2 colDir = col.position - this.position;
+                            Vector2 normColDir = Vector2.Flatten(colDir);
+                            
+                            //STUCK - MOVE BACK
+                            if(Vector2.Flatten(moveDirection) == normColDir)
+                            {
+                                this.position -= moveDirection;
+                            }
+
+                            Vector2 flatMoveDir = Vector2.Flatten(moveDirection);
+                            if(flatMoveDir.x >= normColDir.x)
+                            {
+                                if (moveDirection.x < 0)
+                                {
+                                    moveDirection.x = 0;
+                                }
+                            }
+                            if (flatMoveDir.x <= normColDir.x)
+                            {
+                                if (moveDirection.x > 0)
+                                {
+                                    moveDirection.x = 0;
+                                }
+                            }
+                            if (flatMoveDir.y >= normColDir.y)
+                            {
+                                if (flatMoveDir.y < 0)
+                                {
+                                    moveDirection.y = 0;
+                                }
+                            }
+                            if (flatMoveDir.y <= normColDir.y)
+                            {
+                                if (flatMoveDir.y > 0)
+                                {
+                                    moveDirection.y = 0;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            this.position += moveDirection;
+        }
+
         public void Destroy()
         {
+            foreach(dynamic component in components)
+            {
+                try { Engine.DeregisterSprite(component); } catch { }
+                try { Engine.DeregisterShape(component); } catch { }
+                try { Engine.DeregisterCustomSprite(component); } catch { }
+            }                   
+
             Engine.DeregisterGameObject(this);
         }
 
@@ -55,9 +153,26 @@ namespace GameEngine.Engine
             components.Add(component);
         }
 
-        public void RemoveComponent(Type component)
+        public dynamic GetComponent(dynamic component)
         {
-            components.Remove(component);
+            try
+            {
+                return component;
+            }
+            catch
+            {
+                Log.DebugError($"Unable to get component from [{name}]");
+                return null;
+            }
+        }
+
+        public void RemoveComponent(dynamic component)
+        {
+            try { components.Remove(component); } catch { Log.DebugError($"Unable to remove component from [{name}]"); }
+
+            try { Engine.DeregisterSprite(component); } catch { }
+            try { Engine.DeregisterShape(component); } catch { }
+            try { Engine.DeregisterCustomSprite(component); } catch { }
         }
     }
 }

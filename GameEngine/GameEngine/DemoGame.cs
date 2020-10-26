@@ -25,6 +25,7 @@ namespace GameEngine.Engine
             Log.DebugLog("OnLoad called");
             backgroundColor = Color.Black;
 
+            //Create player object
             playerGO = new GameObject("Player", "Player", new Vector2(50,50), new Vector2(5, 5));
             playerGO.AddComponent(new CustomSprite(new int[][] {
                 new int[] { 1, 0, 0, 0, 1},
@@ -34,6 +35,11 @@ namespace GameEngine.Engine
                 new int[] { 1, 1, 1, 1, 1}
                 }, new Color[] { Color.Transparent, Color.White, Color.Red, Color.Blue }));
             playerGO.AddComponent(new Collider2D());
+
+            //Create collider wall
+            GameObject wall = new GameObject("Wall","Wall", new Vector2(200,200), new Vector2(25,25));
+            wall.AddComponent(new Shape2D(Color.White));
+            wall.AddComponent(new Collider2D());
         }
 
         public override void Update()
@@ -56,7 +62,7 @@ namespace GameEngine.Engine
                 moveDir += new Vector2(1, 0);
             }
 
-            playerGO.position += moveDir * moveSpeed;
+            playerGO.Move(moveDir * moveSpeed);
             //Log.DebugLog($"X:{playerGO.position.x}, Y:{playerGO.position.y}");
         }
 

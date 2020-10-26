@@ -22,6 +22,7 @@ namespace GameEngine.Engine
 
     public abstract class Engine
     {
+        #region Engine Variables
         private Vector2 screenSize = new Vector2(800, 600);
         private string window_Title = "GameEngine";
         private Canvas window = null;
@@ -33,9 +34,11 @@ namespace GameEngine.Engine
         private static List<Shape2D> allShapes = new List<Shape2D>();
         private static List<Sprite> allSprites = new List<Sprite>();
         private static List<CustomSprite> allCustomSprites = new List<CustomSprite>();
+        public static List<Collider2D> allColliders = new List<Collider2D>();
 
         public Vector2 cameraPosition = new Vector2();
         public float cameraRotation = 0f;
+        #endregion
 
         #region Engine Setup
         public Engine(Vector2 screenSize, string title)
@@ -131,6 +134,18 @@ namespace GameEngine.Engine
             Log.DebugLog($"[CUSTOM SPRITE]({sprite.tag}) has been removed from register");
             allCustomSprites.Remove(sprite);
         }
+
+        public static void RegisterCollider(Collider2D collider)
+        {
+            Log.DebugLog($"[COLLIDER] has been registered");
+            allColliders.Add(collider);
+        }
+
+        public static void DeregisterCollider(Collider2D collider)
+        {
+            Log.DebugLog($"[COLLIDER] has been removed from register");
+            allColliders.Remove(collider);
+        }
         #endregion
 
         #region Game Loop + Rendering
@@ -143,6 +158,7 @@ namespace GameEngine.Engine
                 {
                     OnDraw();
                     window.BeginInvoke((MethodInvoker)delegate { window.Refresh(); });
+                    GameObjectUpdate();
                     Update();
                     Thread.Sleep(1); //Allow time for refresh
                 }
@@ -153,15 +169,10 @@ namespace GameEngine.Engine
             }
         }
 
-        private void Renderer(object sender, PaintEventArgs e)
+        private void GameObjectUpdate()
         {
-            Graphics g = e.Graphics;
-
-            g.Clear(backgroundColor); //Set background color
-            g.TranslateTransform(cameraPosition.x, cameraPosition.y); //Update camera position
-            g.RotateTransform(cameraRotation); //Update camera rotation
-
-            foreach(GameObject GO in allGameObjects)
+            //Update all gameobjects
+            foreach (GameObject GO in allGameObjects)
             {
                 foreach (dynamic component in GO.components)
                 {
@@ -173,6 +184,15 @@ namespace GameEngine.Engine
                     catch { Log.DebugWarning("Unable to get position and scale of component"); }
                 }
             }
+        }
+
+        private void Renderer(object sender, PaintEventArgs e)
+        {
+            Graphics g = e.Graphics;
+
+            g.Clear(backgroundColor); //Set background color
+            g.TranslateTransform(cameraPosition.x, cameraPosition.y); //Update camera position
+            g.RotateTransform(cameraRotation); //Update camera rotation
 
             //Draw all registered shapes
             foreach (Shape2D shape in allShapes)
