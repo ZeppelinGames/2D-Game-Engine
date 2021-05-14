@@ -53,6 +53,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DemoGame.cs" />
+    <Compile Include="Engine\BoxCollider.cs" />
+    <Compile Include="Engine\Collider.cs" />
+    <Compile Include="Engine\Component.cs" />
     <Compile Include="Engine\CustomSprite.cs" />
     <Compile Include="Engine\Engine.cs">
       <SubType>Form</SubType>
