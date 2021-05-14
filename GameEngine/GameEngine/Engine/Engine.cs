@@ -77,6 +77,7 @@ namespace GameEngine.Engine
 
         #endregion
 
+        #region Input Management
         private void KeyUp(object sender, KeyEventArgs e)
         {
             GetKeyUp(e);
@@ -86,6 +87,7 @@ namespace GameEngine.Engine
         {
             GetKeyDown(e);
         }
+        #endregion
 
         #region Register classes
         public static void RegisterGameObject(GameObject GO)
@@ -261,12 +263,6 @@ namespace GameEngine.Engine
             foreach (Sprite sprite in allSprites)
             {
                 g.DrawImage(sprite.sprite, sprite.position.x, sprite.position.y, sprite.scale.x, sprite.scale.y);
-            }
-
-            //Debug colliders
-            foreach(Collider col in allColliders)
-            {
-                g.DrawRectangle(new Pen(new SolidBrush(Color.Magenta)), col.position.x, col.position.y, col.scale.x * col.parent.scale.x, col.scale.y * col.parent.scale.y);
             }
 
             foreach (CustomSprite sprite in allCustomSprites)
