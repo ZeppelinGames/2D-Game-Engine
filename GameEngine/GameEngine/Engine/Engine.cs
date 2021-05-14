@@ -34,7 +34,7 @@ namespace GameEngine.Engine
         private static List<Shape2D> allShapes = new List<Shape2D>();
         private static List<Sprite> allSprites = new List<Sprite>();
         private static List<CustomSprite> allCustomSprites = new List<CustomSprite>();
-        public static List<Collider2D> allColliders = new List<Collider2D>();
+        public static List<BoxCollider> allColliders = new List<BoxCollider>();
 
         public Vector2 cameraPosition = new Vector2();
         public float cameraRotation = 0f;
@@ -135,13 +135,13 @@ namespace GameEngine.Engine
             allCustomSprites.Remove(sprite);
         }
 
-        public static void RegisterCollider(Collider2D collider)
+        public static void RegisterCollider(BoxCollider collider)
         {
             Log.DebugLog($"[COLLIDER] has been registered");
             allColliders.Add(collider);
         }
 
-        public static void DeregisterCollider(Collider2D collider)
+        public static void DeregisterCollider(BoxCollider collider)
         {
             Log.DebugLog($"[COLLIDER] has been removed from register");
             allColliders.Remove(collider);
