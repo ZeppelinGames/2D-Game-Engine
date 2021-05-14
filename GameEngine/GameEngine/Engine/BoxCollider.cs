@@ -13,7 +13,6 @@ namespace GameEngine.Engine
             this.parent = parent;
             this.position = position != null ? position : Vector2.Zero;
             this.scale = scale != null ? scale : Vector2.Zero;
-            Engine.RegisterComponent(this);
         }
 
         public bool isColliding(BoxCollider b)

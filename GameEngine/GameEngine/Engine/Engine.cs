@@ -110,18 +110,18 @@ namespace GameEngine.Engine
 
         public static void RegisterComponent(Component component)
         {
-            bool failedRegister = false;
+            bool completedRegister = false;
 
             Debug.WriteLine(component.ToString());
             if (component.componentType != null)
             {
                 //Try register component
-                try { Engine.RegisterCollider(component.componentType); } catch { if (!failedRegister) { failedRegister = true; } }
-                try { Engine.RegisterSprite(component.componentType); } catch { if (!failedRegister) { failedRegister = true; } }
-                try { Engine.RegisterShape(component.componentType); } catch { if (!failedRegister) { failedRegister = true; } }
-                try { Engine.RegisterCustomSprite(component.componentType); } catch { if (!failedRegister) { failedRegister = true; } }
+                try { Engine.RegisterCollider(component.componentType); } catch { if (!completedRegister) { completedRegister = true; } }
+                try { Engine.RegisterSprite(component.componentType); } catch { if (!completedRegister) { completedRegister = true; } }
+                try { Engine.RegisterShape(component.componentType); } catch { if (!completedRegister) { completedRegister = true; } }
+                try { Engine.RegisterCustomSprite(component.componentType); } catch { if (!completedRegister) { completedRegister = true; } }
 
-                if (!failedRegister)
+                if (completedRegister)
                 {
                     Log.DebugLog($"[COMPONENT]({component.componentType.ToString()}) has been registered to ({component.parent.name})");
                 }
@@ -138,15 +138,15 @@ namespace GameEngine.Engine
 
         public static void DeregisterComponent(Component component)
         {
-            bool failedDeregister = false;
+            bool completedDeregister = false;
 
             //Try register component
-            try { Engine.DeregisterCollider(component.componentType); } catch { if (!failedDeregister) { failedDeregister = true; } }
-            try { Engine.DeregisterSprite(component.componentType); } catch { if (!failedDeregister) { failedDeregister = true; } }
-            try { Engine.DeregisterShape(component.componentType); } catch { if (!failedDeregister) { failedDeregister = true; } }
-            try { Engine.DeregisterCustomSprite(component.componentType); } catch { if (!failedDeregister) { failedDeregister = true; } }
+            try { Engine.DeregisterCollider(component.componentType); } catch { if (!completedDeregister) { completedDeregister = true; } }
+            try { Engine.DeregisterSprite(component.componentType); } catch { if (!completedDeregister) { completedDeregister = true; } }
+            try { Engine.DeregisterShape(component.componentType); } catch { if (!completedDeregister) { completedDeregister = true; } }
+            try { Engine.DeregisterCustomSprite(component.componentType); } catch { if (!completedDeregister) { completedDeregister = true; } }
 
-            if (failedDeregister)
+            if (completedDeregister)
             {
                 Log.DebugLog($"[COMPONENT]({component.componentType.ToString()}) has been deregistered and removed from ({component.parent.name})");
             }

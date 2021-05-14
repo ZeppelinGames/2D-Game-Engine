@@ -27,16 +27,12 @@ namespace GameEngine.Engine
         {
             this.spriteArray = spriteArray;
             this.shapeColor[0] = shapeColor;
-
-            Engine.RegisterComponent(this);
         }
 
         public CustomSprite(int[][] spriteArray, Color[] shapeColors)
         {
             this.spriteArray = spriteArray;
             this.shapeColor = shapeColors;
-
-            Engine.RegisterComponent(this);
         }
 
         public CustomSprite()
@@ -50,8 +46,6 @@ namespace GameEngine.Engine
             };
 
             this.shapeColor[0] = Color.Pink;
-
-            Engine.RegisterComponent(this);
         }
     }
 }

@@ -29,8 +29,6 @@ namespace GameEngine.Engine
             Image tmp = Image.FromFile($"Assets/Sprites/{directory}.png");
             Bitmap sprite = new Bitmap(tmp, (int)this.scale.x, (int)this.scale.y);
             this.sprite = sprite;
-
-            Engine.RegisterComponent(this);
         }
     }
 }

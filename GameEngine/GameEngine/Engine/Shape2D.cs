@@ -23,8 +23,6 @@ namespace GameEngine.Engine
         public Shape2D(Color shapeColor)
         {
             this.shapeColor = shapeColor;
-
-            Engine.RegisterComponent(this);
         }
     }
 }
