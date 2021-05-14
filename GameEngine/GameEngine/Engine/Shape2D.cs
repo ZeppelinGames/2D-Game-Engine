@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GameEngine.Engine
 {
-    public class Shape2D
+    public class Shape2D : Component
     {
         public Vector2 position = new Vector2();
         public Vector2 scale = new Vector2(1, 1);
@@ -24,12 +24,7 @@ namespace GameEngine.Engine
         {
             this.shapeColor = shapeColor;
 
-            Engine.RegisterShapes(this);
-        }
-
-        public void Destroy()
-        {
-            Engine.DeregisterShape(this);
+            Engine.RegisterComponent(this);
         }
     }
 }

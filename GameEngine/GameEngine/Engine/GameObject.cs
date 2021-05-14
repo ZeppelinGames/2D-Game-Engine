@@ -20,7 +20,7 @@ namespace GameEngine.Engine
         public Vector2 scale;
         public float rotation;
 
-        public List<dynamic> components = new List<dynamic>();
+        public List<Component> components = new List<Component>();
 
         /// <summary>
         /// Creates new GameObject
@@ -69,9 +69,9 @@ namespace GameEngine.Engine
         /// <param name="movePosition"></param>
         public void Move(Vector2 moveDirection)
         {
-            foreach (Collider2D col in Engine.allColliders)
+            foreach (BoxCollider col in Engine.allColliders)
             {
-                Collider2D thisCol = null;
+                BoxCollider thisCol = null;
                 foreach (dynamic component in components)
                 {
                     try { thisCol = component; } catch { }
@@ -128,45 +128,24 @@ namespace GameEngine.Engine
         }
 
         public void Destroy()
-        {
-            foreach(dynamic component in components)
-            {
-                try { Engine.DeregisterSprite(component); } catch { }
-                try { Engine.DeregisterShape(component); } catch { }
-                try { Engine.DeregisterCustomSprite(component); } catch { }
-            }                   
-
+        {     
             Engine.DeregisterGameObject(this);
         }
 
         public void AddComponent(dynamic component)
         {
-            try
+            if (component != null)
             {
-                Vector2 componentPos = component.position;
-                Vector2 componentScale = component.scale;
+                Component newComponent = new Component();
+                newComponent.componentType = component;
+                newComponent.parent = this;
 
-                componentPos = this.position;
-                componentScale = this.scale;
-            }
-            catch { Log.DebugWarning("Unable to get position and scale of component"); }
+                Engine.RegisterComponent(newComponent);
 
-            //Try register component
-            try { Engine.RegisterSprites(component); } catch { }
-            try { Engine.RegisterShapes(component); } catch { }
-            try { Engine.RegisterCustomSprite(component); } catch { }
-
-            components.Add(component);
-        }
-
-        public void AddComponents(dynamic[] components)
-        {
-            if (components != null)
+                components.Add(component);
+            }  else
             {
-                foreach (dynamic comp in components)
-                {
-                    AddComponent(comp);
-                }
+                Log.DebugError("TRIED TO ADD NULL COMPONENT");
             }
         }
 
@@ -183,13 +162,9 @@ namespace GameEngine.Engine
             }
         }
 
-        public void RemoveComponent(dynamic component)
+        public void RemoveComponent(Component component)
         {
-            try { components.Remove(component); } catch { Log.DebugError($"Unable to remove component from [{name}]"); }
-
-            try { Engine.DeregisterSprite(component); } catch { }
-            try { Engine.DeregisterShape(component); } catch { }
-            try { Engine.DeregisterCustomSprite(component); } catch { }
+            Engine.DeregisterComponent(component);
         }
     }
 }

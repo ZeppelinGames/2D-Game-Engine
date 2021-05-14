@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GameEngine.Engine
 {
-    public class Sprite
+    public class Sprite : Component
     {
         public Vector2 position = new Vector2();
         public Vector2 scale = new Vector2(1, 1);
@@ -30,12 +30,7 @@ namespace GameEngine.Engine
             Bitmap sprite = new Bitmap(tmp, (int)this.scale.x, (int)this.scale.y);
             this.sprite = sprite;
 
-            Engine.RegisterSprites(this);
-        }
-
-        public void Destroy()
-        {
-            Engine.DeregisterSprite(this);
+            Engine.RegisterComponent(this);
         }
     }
 }

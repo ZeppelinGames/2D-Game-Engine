@@ -28,5 +28,12 @@ namespace GameEngine.Engine
             Console.WriteLine($"[{DateTime.Now.ToString("HH: mm:ss")}] [ERROR] - {msg}");
             Console.ForegroundColor = ConsoleColor.White;
         }
+
+        public static void DebugCustom(string msg, string tag = "CUSTOM", ConsoleColor color = ConsoleColor.Green)
+        {
+            Console.ForegroundColor = color;
+            Console.WriteLine($"[{DateTime.Now.ToString("HH: mm:ss")}] [{tag}] - {msg}");
+            Console.ForegroundColor = ConsoleColor.White;
+        }
     }
 }

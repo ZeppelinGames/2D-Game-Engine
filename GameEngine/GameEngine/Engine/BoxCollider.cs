@@ -6,29 +6,19 @@ using System.Threading.Tasks;
 
 namespace GameEngine.Engine
 {
-    public class BoxCollider
+    public class BoxCollider : Collider
     {
-        public Vector2 position = new Vector2();
-        public Vector2 scale = new Vector2();
-
-        public BoxCollider()
+        public BoxCollider(GameObject parent,Vector2 position = null, Vector2 scale = null)
         {
-            Engine.RegisterCollider(this);
+            this.parent = parent;
+            this.position = position != null ? position : Vector2.Zero;
+            this.scale = scale != null ? scale : Vector2.Zero;
+            Engine.RegisterComponent(this);
         }
 
         public bool isColliding(BoxCollider b)
         {
-            if ((Math.Abs((position.x + scale.x / 2) - (b.position.x + b.scale.x / 2)) * 2 < (scale.x + b.scale.x)) &&
-                 (Math.Abs((position.y + scale.y / 2) - (b.position.y + b.scale.y / 2)) * 2 < (scale.y + b.scale.y)))
-            {
-                return true;
-            }
-            return false;
-        }
-
-        public void Destroy()
-        {
-            Engine.DeregisterCollider(this);
+            return (Math.Abs(b.position.x - position.x) * 2 < ((b.scale.x + scale.x)*2)) && (Math.Abs(b.position.y - position.y) * 2 < ((b.scale.y + scale.y)*2));
         }
     }
 }

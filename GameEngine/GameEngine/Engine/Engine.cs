@@ -34,7 +34,7 @@ namespace GameEngine.Engine
         private static List<Shape2D> allShapes = new List<Shape2D>();
         private static List<Sprite> allSprites = new List<Sprite>();
         private static List<CustomSprite> allCustomSprites = new List<CustomSprite>();
-        public static List<BoxCollider> allColliders = new List<BoxCollider>();
+        public static List<Collider> allColliders = new List<Collider>();
 
         public Vector2 cameraPosition = new Vector2();
         public float cameraRotation = 0f;
@@ -95,53 +95,110 @@ namespace GameEngine.Engine
         }
         public static void DeregisterGameObject(GameObject GO)
         {
+            //Remove components attached to gameobject
+            foreach (Component component in GO.components)
+            {
+                try { Engine.DeregisterCollider(component.componentType); } catch { }
+                try { Engine.DeregisterSprite(component.componentType); } catch { }
+                try { Engine.DeregisterShape(component.componentType); } catch { }
+                try { Engine.DeregisterCustomSprite(component.componentType); } catch { }
+            }
+
             Log.DebugLog($"[GAMEOBJECT]({GO.name}) has been removed from register");
-            allGameObjects.Add(GO);
+            allGameObjects.Remove(GO);
         }
 
-        public static void RegisterShapes(Shape2D shape)
+        public static void RegisterComponent(Component component)
+        {
+            bool failedRegister = false;
+
+            Debug.WriteLine(component.ToString());
+            if (component.componentType != null)
+            {
+                //Try register component
+                try { Engine.RegisterCollider(component.componentType); } catch { if (!failedRegister) { failedRegister = true; } }
+                try { Engine.RegisterSprite(component.componentType); } catch { if (!failedRegister) { failedRegister = true; } }
+                try { Engine.RegisterShape(component.componentType); } catch { if (!failedRegister) { failedRegister = true; } }
+                try { Engine.RegisterCustomSprite(component.componentType); } catch { if (!failedRegister) { failedRegister = true; } }
+
+                if (!failedRegister)
+                {
+                    Log.DebugLog($"[COMPONENT]({component.componentType.ToString()}) has been registered to ({component.parent.name})");
+                }
+                else
+                {
+                    Log.DebugError($"[COMPONENT]({component.componentType.ToString()}) DID NOT successfully register to ({component.parent.name})");
+                }
+            }
+            else
+            {
+                Log.DebugError("TRYING TO ADD NULL COMPONENT");
+            }
+        }
+
+        public static void DeregisterComponent(Component component)
+        {
+            bool failedDeregister = false;
+
+            //Try register component
+            try { Engine.DeregisterCollider(component.componentType); } catch { if (!failedDeregister) { failedDeregister = true; } }
+            try { Engine.DeregisterSprite(component.componentType); } catch { if (!failedDeregister) { failedDeregister = true; } }
+            try { Engine.DeregisterShape(component.componentType); } catch { if (!failedDeregister) { failedDeregister = true; } }
+            try { Engine.DeregisterCustomSprite(component.componentType); } catch { if (!failedDeregister) { failedDeregister = true; } }
+
+            if (failedDeregister)
+            {
+                Log.DebugLog($"[COMPONENT]({component.componentType.ToString()}) has been deregistered and removed from ({component.parent.name})");
+            }
+            else
+            {
+                Log.DebugError($"[COMPONENT]({component.componentType.ToString()}) could not be found. Component was not removed");
+            }
+        }
+
+        private static void RegisterShape(Shape2D shape)
         {
             Log.DebugLog($"[SHAPE]({shape.tag}) has been registered");
             allShapes.Add(shape);
         }
 
-        public static void DeregisterShape(Shape2D shape)
+        private static void DeregisterShape(Shape2D shape)
         {
             Log.DebugLog($"[SHAPE]({shape.tag}) has been removed from register");
             allShapes.Remove(shape);
         }
 
-        public static void RegisterSprites(Sprite sprite)
+        private static void RegisterSprite(Sprite sprite)
         {
             Log.DebugLog($"[SPRITE]({sprite.tag}) has been registered");
             allSprites.Add(sprite);
         }
 
-        public static void DeregisterSprite(Sprite sprite)
+        private static void DeregisterSprite(Sprite sprite)
         {
             Log.DebugLog($"[SPRITE]({sprite.tag}) has been removed from register");
             allSprites.Remove(sprite);
         }
 
-        public static void RegisterCustomSprite(CustomSprite sprite)
+        private static void RegisterCustomSprite(CustomSprite sprite)
         {
             Log.DebugLog($"[CUSTOM SPRITE]({sprite.tag}) has been registered");
             allCustomSprites.Add(sprite);
         }
 
-        public static void DeregisterCustomSprite(CustomSprite sprite)
+        private static void DeregisterCustomSprite(CustomSprite sprite)
         {
             Log.DebugLog($"[CUSTOM SPRITE]({sprite.tag}) has been removed from register");
             allCustomSprites.Remove(sprite);
         }
 
-        public static void RegisterCollider(BoxCollider collider)
+        private static void RegisterCollider(BoxCollider collider)
         {
             Log.DebugLog($"[COLLIDER] has been registered");
             allColliders.Add(collider);
         }
 
-        public static void DeregisterCollider(BoxCollider collider)
+        private static void DeregisterCollider(BoxCollider collider)
         {
             Log.DebugLog($"[COLLIDER] has been removed from register");
             allColliders.Remove(collider);
@@ -204,6 +261,12 @@ namespace GameEngine.Engine
             foreach (Sprite sprite in allSprites)
             {
                 g.DrawImage(sprite.sprite, sprite.position.x, sprite.position.y, sprite.scale.x, sprite.scale.y);
+            }
+
+            //Debug colliders
+            foreach(Collider col in allColliders)
+            {
+                g.DrawRectangle(new Pen(new SolidBrush(Color.Magenta)), col.position.x, col.position.y, col.scale.x * col.parent.scale.x, col.scale.y * col.parent.scale.y);
             }
 
             foreach (CustomSprite sprite in allCustomSprites)

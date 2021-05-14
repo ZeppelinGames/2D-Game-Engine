@@ -6,7 +6,7 @@ namespace GameEngine.Engine
     {
         static void Main(string[] args)
         {
-            DemoGame game = new DemoGame();
+           DemoGame game = new DemoGame();
         }
     }
 }

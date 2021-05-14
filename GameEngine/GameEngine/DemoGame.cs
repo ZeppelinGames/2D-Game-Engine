@@ -28,19 +28,19 @@ namespace GameEngine.Engine
             //Create player object
             playerGO = new GameObject("Player", "Player", new Vector2(50, 50), new Vector2(5, 5), new dynamic[] {
             new CustomSprite(new int[][] {
-                new int[] { 0, 4,4, 4, 0},
+                new int[] { 0, 4, 4, 4, 0},
                 new int[] { 0, 2, 2, 2, 0},
                 new int[] { 2, 1, 1, 1, 2},
                 new int[] { 0, 1, 1, 1, 0},
                 new int[] { 0, 3, 0, 3, 0}
-            }, new Color[] { Color.Transparent, Color.White, Color.Tan, Color.Blue, Color.Brown }),
-            new Collider2D()
+            }, new Color[] { Color.Transparent, Color.White, Color.Tan, Color.Blue, Color.Brown }), 
             });
+            playerGO.AddComponent(new BoxCollider(playerGO, Vector2.Zero, new Vector2(50, 50)));
 
             //Create collider wall
             GameObject wall = new GameObject("Wall", "Wall", new Vector2(200, 200), new Vector2(50, 50));
             wall.AddComponent(new Shape2D(Color.Gray));
-            wall.AddComponent(new Collider2D());
+            wall.AddComponent(new BoxCollider(wall));
         }
 
         public override void Update()

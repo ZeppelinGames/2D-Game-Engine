@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GameEngine.Engine
 {
-    public class CustomSprite
+    public class CustomSprite : Component
     {
         public int[][] spriteArray = new int[][] {
             new int[] { 1, 1, 1, 1, 1 },
@@ -28,7 +28,7 @@ namespace GameEngine.Engine
             this.spriteArray = spriteArray;
             this.shapeColor[0] = shapeColor;
 
-            Engine.RegisterCustomSprite(this);
+            Engine.RegisterComponent(this);
         }
 
         public CustomSprite(int[][] spriteArray, Color[] shapeColors)
@@ -36,7 +36,7 @@ namespace GameEngine.Engine
             this.spriteArray = spriteArray;
             this.shapeColor = shapeColors;
 
-            Engine.RegisterCustomSprite(this);
+            Engine.RegisterComponent(this);
         }
 
         public CustomSprite()
@@ -51,12 +51,7 @@ namespace GameEngine.Engine
 
             this.shapeColor[0] = Color.Pink;
 
-            Engine.RegisterCustomSprite(this);
-        }
-
-        public void Destroy()
-        {
-            Engine.DeregisterCustomSprite(this);
+            Engine.RegisterComponent(this);
         }
     }
 }
