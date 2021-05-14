@@ -12,10 +12,21 @@ namespace GameEngine.Engine
         public float x { get; set; }
         public float y { get; set; }
 
+        /// <summary>
+        /// Returns Vector2(0, 0)
+        /// </summary>
+        /// <returns></returns>
+        public static readonly Vector2 Zero = new Vector2(0, 0);
+        /// <summary>
+        /// Returns Vector2(1, 1)
+        /// </summary>
+        /// <returns></returns>
+        public static readonly Vector2 One = new Vector2(1, 1);
+
         public Vector2()
         {
-            this.x = Zero().x;
-            this.y = Zero().y;
+            this.x = Zero.x;
+            this.y = Zero.y;
         }
 
         public Vector2(float x, float y)
@@ -34,15 +45,6 @@ namespace GameEngine.Engine
             if (nonFlatVector.y < 0) { y = -1; }
 
             return new Vector2(x, y);
-        }
-
-        /// <summary>
-        /// Returns Vector2(0,0)
-        /// </summary>
-        /// <returns></returns>
-        public static Vector2 Zero()
-        {
-            return new Vector2(0, 0);
         }
 
         public static Vector2 operator +(Vector2 a, Vector2 b)

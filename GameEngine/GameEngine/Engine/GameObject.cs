@@ -29,13 +29,21 @@ namespace GameEngine.Engine
         /// <param name="tag"></param>
         /// <param name="position"></param>
         /// <param name="scale"></param>
-        public GameObject(string name, string tag, Vector2 position, Vector2 scale)
+        public GameObject(string name, string tag, Vector2 position = null, Vector2 scale = null, dynamic[] components = null)
         {
             this.name = name;
             this.tag = tag;
 
-            this.position = position;
-            this.scale = scale;
+            this.position = position != null ? position : Vector2.Zero;
+            this.scale = scale != null ? scale : Vector2.One;
+
+            if (components != null)
+            {
+                foreach (dynamic comp in components)
+                {
+                    AddComponent(comp);
+                }
+            }
 
             Engine.RegisterGameObject(this);
         }
@@ -149,6 +157,17 @@ namespace GameEngine.Engine
             try { Engine.RegisterCustomSprite(component); } catch { }
 
             components.Add(component);
+        }
+
+        public void AddComponents(dynamic[] components)
+        {
+            if (components != null)
+            {
+                foreach (dynamic comp in components)
+                {
+                    AddComponent(comp);
+                }
+            }
         }
 
         public dynamic GetComponent(dynamic component)
