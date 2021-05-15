@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace GameEngine.Engine
 {
-    public class Collider : Component
+    public abstract class Collider : Component
     {
         public Vector2 position;
         public Vector2 scale;
+
+        public abstract bool isColliding(Vector2 position, Vector2 scale);
     }
 }

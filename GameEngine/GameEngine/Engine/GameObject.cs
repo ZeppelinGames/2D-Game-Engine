@@ -69,30 +69,27 @@ namespace GameEngine.Engine
         /// <param name="movePosition"></param>
         public void Move(Vector2 moveDirection)
         {
-            foreach (BoxCollider col in Engine.allColliders)
+            Collider m_Col = GetComponent(typeof(Collider));
+            if (m_Col != null)
             {
-                BoxCollider thisCol = null;
-                foreach (dynamic component in components)
+                foreach (Collider col in Engine.allColliders)
                 {
-                    try { thisCol = component; } catch { }
-                }
-                if (thisCol != null)
-                {
-                    if (thisCol != col)
+                    if (col != m_Col)
                     {
-                        if (thisCol.isColliding(col))
-                        {   
+                        if (col.isColliding(col.position, col.scale))
+                        {
+
                             Vector2 colDir = col.position - this.position;
                             Vector2 normColDir = Vector2.Flatten(colDir);
-                            
+
                             //STUCK - MOVE BACK
-                            if(Vector2.Flatten(moveDirection) == normColDir)
+                            if (Vector2.Flatten(moveDirection) == normColDir)
                             {
                                 this.position -= moveDirection;
                             }
 
                             Vector2 flatMoveDir = Vector2.Flatten(moveDirection);
-                            if(flatMoveDir.x >= normColDir.x)
+                            if (flatMoveDir.x >= normColDir.x)
                             {
                                 if (moveDirection.x < 0)
                                 {

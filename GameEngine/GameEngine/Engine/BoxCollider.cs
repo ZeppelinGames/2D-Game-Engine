@@ -15,9 +15,9 @@ namespace GameEngine.Engine
             this.scale = scale != null ? scale : Vector2.Zero;
         }
 
-        public bool isColliding(BoxCollider b)
+        public override bool isColliding(Vector2 bPos, Vector2 bScale)
         {
-            return (Math.Abs(b.position.x - position.x) * 2 < ((b.scale.x + scale.x)*2)) && (Math.Abs(b.position.y - position.y) * 2 < ((b.scale.y + scale.y)*2));
+            return (Math.Abs(bPos.x - position.x) * 2 < ((bScale.x + scale.x)*2)) && (Math.Abs(bPos.y - position.y) * 2 < ((bScale.y + scale.y)*2));
         }
     }
 }

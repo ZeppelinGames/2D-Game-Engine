@@ -35,13 +35,18 @@ namespace GameEngine.Engine
             this.y = y;
         }
 
+        public static float Distance(Vector2 p1,Vector2 p2)
+        {
+           return (float)Math.Sqrt(Math.Pow(p2.x - p1.x, 2) + Math.Pow(p2.y - p1.y, 2));
+        }
+
         public static Vector2 Flatten(Vector2 nonFlatVector)
         {
             float x = 0;
             float y = 0;
             if (nonFlatVector.x > 0) { x = 1; }
             if (nonFlatVector.x < 0) { x = -1; }
-            if (nonFlatVector.y > 0) {y=1;}
+            if (nonFlatVector.y > 0) { y = 1; }
             if (nonFlatVector.y < 0) { y = -1; }
 
             return new Vector2(x, y);

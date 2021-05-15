@@ -194,13 +194,13 @@ namespace GameEngine.Engine
             allCustomSprites.Remove(sprite);
         }
 
-        private static void RegisterCollider(BoxCollider collider)
+        private static void RegisterCollider(Collider collider)
         {
             Log.DebugLog($"[COLLIDER] has been registered");
             allColliders.Add(collider);
         }
 
-        private static void DeregisterCollider(BoxCollider collider)
+        private static void DeregisterCollider(Collider collider)
         {
             Log.DebugLog($"[COLLIDER] has been removed from register");
             allColliders.Remove(collider);
@@ -216,7 +216,7 @@ namespace GameEngine.Engine
                 try //Make window is open
                 {
                     OnDraw();
-                    window.BeginInvoke((MethodInvoker)delegate { window.Refresh(); });
+                    window.BeginInvoke((MethodInvoker) delegate { window.Refresh(); });
                     GameObjectUpdate();
                     Update();
                     Thread.Sleep(1); //Allow time for refresh
@@ -289,6 +289,11 @@ namespace GameEngine.Engine
                     }
                 }
             }
+/*
+            foreach(Collider col in allColliders)
+            {
+                g.DrawEllipse(new Pen(new SolidBrush(Color.Magenta)), col.position.x, col.position.y, col.scale.x, col.scale.y);
+            }*/
         }
         #endregion
 

@@ -35,12 +35,13 @@ namespace GameEngine.Engine
                 new int[] { 0, 3, 0, 3, 0}
             }, new Color[] { Color.Transparent, Color.White, Color.Tan, Color.Blue, Color.Brown }), 
             });
-            playerGO.AddComponent(new BoxCollider(playerGO, Vector2.Zero, new Vector2(50, 50)));
+            playerGO.AddComponent(new CircleCollider(playerGO, Vector2.Zero, 5));
 
             //Create collider wall
             GameObject wall = new GameObject("Wall", "Wall", new Vector2(200, 200), new Vector2(50, 50));
             wall.AddComponent(new Shape2D(Color.Gray));
-            wall.AddComponent(new BoxCollider(wall));
+            //wall.AddComponent(new BoxCollider(wall));
+            wall.AddComponent(new CircleCollider(wall, Vector2.Zero, 50));
         }
 
         public override void Update()
@@ -56,7 +57,7 @@ namespace GameEngine.Engine
 
         public override void OnDraw()
         {
-
+          
         }
 
         public override void GetKeyDown(System.Windows.Forms.KeyEventArgs e)
