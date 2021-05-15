@@ -114,7 +114,6 @@ namespace GameEngine.Engine
         {
             bool completedRegister = false;
 
-            Debug.WriteLine(component.ToString());
             if (component.componentType != null)
             {
                 //Try register component
@@ -223,7 +222,7 @@ namespace GameEngine.Engine
                 }
                 catch
                 {
-                    Log.DebugWarning("Game window could not be found");
+                    Log.DebugError("Game window could not be found. It shat itself. Idk");
                 }
             }
         }
@@ -289,11 +288,11 @@ namespace GameEngine.Engine
                     }
                 }
             }
-/*
-            foreach(Collider col in allColliders)
+
+            foreach (Collider col in allColliders)
             {
                 g.DrawEllipse(new Pen(new SolidBrush(Color.Magenta)), col.position.x, col.position.y, col.scale.x, col.scale.y);
-            }*/
+            }
         }
         #endregion
 

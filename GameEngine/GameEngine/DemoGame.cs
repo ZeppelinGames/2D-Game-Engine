@@ -52,7 +52,8 @@ namespace GameEngine.Engine
             moveDir = left ? moveDir + new Vector2(-1, 0) : moveDir;
             moveDir = right ? moveDir + new Vector2(1, 0) : moveDir;
 
-            playerGO.Move(moveDir * moveSpeed);
+            Collider col = playerGO.GetComponent<CircleCollider>(null);
+           playerGO.Move(col, moveDir * moveSpeed);
         }
 
         public override void OnDraw()

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace GameEngine.Engine
 {
     class CircleCollider : Collider
-    {
+    { 
         public CircleCollider(GameObject parent, Vector2 position = null, float radius = 1)
         {
             this.parent = parent;

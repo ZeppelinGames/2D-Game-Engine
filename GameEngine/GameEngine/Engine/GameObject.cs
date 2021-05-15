@@ -58,7 +58,7 @@ namespace GameEngine.Engine
             this.tag = "Default";
 
             this.position = new Vector2();
-            this.scale = new Vector2(10,10);
+            this.scale = new Vector2(10, 10);
 
             Engine.RegisterGameObject(this);
         }
@@ -67,9 +67,10 @@ namespace GameEngine.Engine
         /// Move GameObject in a direction using collisions
         /// </summary>
         /// <param name="movePosition"></param>
-        public void Move(Vector2 moveDirection)
+        public void Move(Collider m_Col,Vector2 moveDirection)
         {
-            Collider m_Col = GetComponent(typeof(Collider));
+/*            Collider m_Col = null;
+            try { m_Col = GetComponent(typeof(Collider)); } catch { }*/
             if (m_Col != null)
             {
                 foreach (Collider col in Engine.allColliders)
@@ -78,7 +79,6 @@ namespace GameEngine.Engine
                     {
                         if (col.isColliding(col.position, col.scale))
                         {
-
                             Vector2 colDir = col.position - this.position;
                             Vector2 normColDir = Vector2.Flatten(colDir);
 
@@ -146,17 +146,26 @@ namespace GameEngine.Engine
             }
         }
 
-        public dynamic GetComponent(dynamic component)
+        public dynamic GetComponent<Comp>(Component c) where Comp : Component
         {
-            try
+            dynamic component = c;
+            if (component == typeof(Component))
             {
-                return component;
+                Log.DebugLog("IS COMP");
+                foreach (Component comp in components)
+                {
+                    if (comp.componentType == component.componentType)
+                    {
+                        try
+                        {
+                            return comp;
+                        }
+                        catch { }
+                    }
+                }
             }
-            catch
-            {
-                Log.DebugError($"Unable to get component from [{name}]");
-                return null;
-            }
+            Log.DebugError($"Unable to get component from [{name}]");
+            return null;
         }
 
         public void RemoveComponent(Component component)
