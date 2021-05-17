@@ -29,21 +29,13 @@ namespace GameEngine.Engine
         /// <param name="tag"></param>
         /// <param name="position"></param>
         /// <param name="scale"></param>
-        public GameObject(string name, string tag, Vector2 position = null, Vector2 scale = null, dynamic[] components = null)
+        public GameObject(string name, string tag, Vector2 position = null, Vector2 scale = null)
         {
             this.name = name;
             this.tag = tag;
 
             this.position = position != null ? position : Vector2.Zero;
             this.scale = scale != null ? scale : Vector2.One;
-
-            if (components != null)
-            {
-                foreach (dynamic comp in components)
-                {
-                    AddComponent(comp);
-                }
-            }
 
             Engine.RegisterGameObject(this);
         }
@@ -57,8 +49,8 @@ namespace GameEngine.Engine
             this.name = name;
             this.tag = "Default";
 
-            this.position = new Vector2();
-            this.scale = new Vector2(10, 10);
+            this.position = Vector2.Zero;
+            this.scale = Vector2.One;
 
             Engine.RegisterGameObject(this);
         }
@@ -69,59 +61,72 @@ namespace GameEngine.Engine
         /// <param name="movePosition"></param>
         public void Move(Collider m_Col,Vector2 moveDirection)
         {
-/*            Collider m_Col = null;
-            try { m_Col = GetComponent(typeof(Collider)); } catch { }*/
-            if (m_Col != null)
+            foreach(Collider col in Engine.allColliders)
+            {
+                if (col.parent != m_Col.parent)
+                {
+                    Log.DebugWarning($"Checking {col.parent.name} with {m_Col.parent.name}");
+                    if (m_Col.isColliding(col.position, col.scale))
+                    {
+                        Log.DebugWarning("Colliding");
+                    }
+                }
+            }
+            this.position += moveDirection; 
+
+          /*  if (m_Col != null)
             {
                 foreach (Collider col in Engine.allColliders)
                 {
-                    if (col != m_Col)
-                    {
-                        if (col.isColliding(col.position, col.scale))
+                    if(col != null) {
+                        if (col != m_Col)
                         {
-                            Vector2 colDir = col.position - this.position;
-                            Vector2 normColDir = Vector2.Flatten(colDir);
+                            if (col.isColliding(m_Col.position, m_Col.scale))
+                            {
+                                Vector2 colDir = m_Col.position - this.position;
+                                Vector2 normColDir = Vector2.Flatten(colDir);
 
-                            //STUCK - MOVE BACK
-                            if (Vector2.Flatten(moveDirection) == normColDir)
-                            {
-                                this.position -= moveDirection;
-                            }
+                                //STUCK - MOVE BACK
+                                if (Vector2.Flatten(moveDirection) == normColDir)
+                                {
+                                    this.position -= moveDirection;
+                                }
 
-                            Vector2 flatMoveDir = Vector2.Flatten(moveDirection);
-                            if (flatMoveDir.x >= normColDir.x)
-                            {
-                                if (moveDirection.x < 0)
+                                Vector2 flatMoveDir = Vector2.Flatten(moveDirection);
+                                if (flatMoveDir.x >= normColDir.x)
                                 {
-                                    moveDirection.x = 0;
+                                    if (moveDirection.x < 0)
+                                    {
+                                        moveDirection.x = 0;
+                                    }
                                 }
-                            }
-                            if (flatMoveDir.x <= normColDir.x)
-                            {
-                                if (moveDirection.x > 0)
+                                if (flatMoveDir.x <= normColDir.x)
                                 {
-                                    moveDirection.x = 0;
+                                    if (moveDirection.x > 0)
+                                    {
+                                        moveDirection.x = 0;
+                                    }
                                 }
-                            }
-                            if (flatMoveDir.y >= normColDir.y)
-                            {
-                                if (flatMoveDir.y < 0)
+                                if (flatMoveDir.y >= normColDir.y)
                                 {
-                                    moveDirection.y = 0;
+                                    if (flatMoveDir.y < 0)
+                                    {
+                                        moveDirection.y = 0;
+                                    }
                                 }
-                            }
-                            if (flatMoveDir.y <= normColDir.y)
-                            {
-                                if (flatMoveDir.y > 0)
+                                if (flatMoveDir.y <= normColDir.y)
                                 {
-                                    moveDirection.y = 0;
+                                    if (flatMoveDir.y > 0)
+                                    {
+                                        moveDirection.y = 0;
+                                    }
                                 }
                             }
                         }
                     }
                 }
             }
-            this.position += moveDirection;
+            this.position += moveDirection;*/
         }
 
         public void Destroy()
@@ -129,43 +134,40 @@ namespace GameEngine.Engine
             Engine.DeregisterGameObject(this);
         }
 
-        public void AddComponent(dynamic component)
+        public void AddComponent<Comp>(GameObject p) where Comp : Component
         {
-            if (component != null)
-            {
-                Component newComponent = new Component();
-                newComponent.componentType = component;
-                newComponent.parent = this;
+            Component newComp = new Component();
+            CircleCollider cc = new CircleCollider(Vector2.Zero, 5);
+            cc.parent = p;
+            newComp.componentType = cc;
+            newComp.parent = p;
 
-                Engine.RegisterComponent(newComponent);
-
-                components.Add(component);
-            }  else
-            {
-                Log.DebugError("TRIED TO ADD NULL COMPONENT");
-            }
+            Engine.RegisterComponent(newComp);
+            this.components.Add(newComp);
         }
 
-        public dynamic GetComponent<Comp>(Component c) where Comp : Component
+        public dynamic GetComponent<Comp>() where Comp : Component
         {
-            dynamic component = c;
-            if (component == typeof(Component))
+            foreach (Component comp in components)
             {
-                Log.DebugLog("IS COMP");
-                foreach (Component comp in components)
+                if (comp.componentType is Comp)
                 {
-                    if (comp.componentType == component.componentType)
-                    {
-                        try
-                        {
-                            return comp;
-                        }
-                        catch { }
-                    }
+                    return comp.componentType;
                 }
             }
             Log.DebugError($"Unable to get component from [{name}]");
             return null;
+        }
+
+        public void SetComponent<Comp>(Component newComp) where Comp : Component
+        {
+            for (int n = 0; n < components.Count; n++)
+            {
+                if (components[n] is Comp)
+                {
+                    components[n] = newComp;
+                }
+            }
         }
 
         public void RemoveComponent(Component component)

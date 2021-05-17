@@ -232,14 +232,16 @@ namespace GameEngine.Engine
             //Update all gameobjects
             foreach (GameObject GO in allGameObjects)
             {
-                foreach (dynamic component in GO.components)
+                foreach (Component component in GO.components)
                 {
                     try
                     {
                         component.position = GO.position;
                         component.scale = GO.scale;
+
+                        Log.DebugCustom($"X: {component.position.x} Y: {component.position.y}", "PLAYER", ConsoleColor.Green);
                     }
-                    catch { Log.DebugWarning("Unable to get position and scale of component"); }
+                    catch { Log.DebugWarning("Unable to get position and scale of component " + component.componentType.ToString()); }
                 }
             }
         }
@@ -291,7 +293,7 @@ namespace GameEngine.Engine
 
             foreach (Collider col in allColliders)
             {
-                g.DrawEllipse(new Pen(new SolidBrush(Color.Magenta)), col.position.x, col.position.y, col.scale.x, col.scale.y);
+                g.DrawEllipse(new Pen(new SolidBrush(Color.Magenta),3), col.parent.position.x, col.parent.position.y, col.scale.x, col.scale.y);
             }
         }
         #endregion

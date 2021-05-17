@@ -8,9 +8,8 @@ namespace GameEngine.Engine
 {
     class CircleCollider : Collider
     { 
-        public CircleCollider(GameObject parent, Vector2 position = null, float radius = 1)
+        public CircleCollider(Vector2 position = null, float radius = 1)
         {
-            this.parent = parent;
             this.position = position != null ? position : Vector2.Zero;
             this.scale = new Vector2(radius,radius);
         }
@@ -19,7 +18,7 @@ namespace GameEngine.Engine
         {
             float rad = scal.x != scal.y ? scal.x > scal.y ? scal.x : scal.y : scal.x;
 
-            float dist = Vector2.Distance(pos, position);
+            float dist = Vector2.Distance(pos, this.position);
             if (dist <= (rad + scale.x))
             {
                 Log.DebugLog("CIRCLE COL");

@@ -26,22 +26,27 @@ namespace GameEngine.Engine
             backgroundColor = Color.Black;
 
             //Create player object
-            playerGO = new GameObject("Player", "Player", new Vector2(50, 50), new Vector2(5, 5), new dynamic[] {
-            new CustomSprite(new int[][] {
+            playerGO = new GameObject("Player", "Player", new Vector2(50, 50), new Vector2(5, 5));
+            playerGO.AddComponent<CustomSprite>(playerGO);
+
+            playerGO.SetComponent<CustomSprite>(new CustomSprite(new int[][] {
                 new int[] { 0, 4, 4, 4, 0},
                 new int[] { 0, 2, 2, 2, 0},
                 new int[] { 2, 1, 1, 1, 2},
                 new int[] { 0, 1, 1, 1, 0},
                 new int[] { 0, 3, 0, 3, 0}
-            }, new Color[] { Color.Transparent, Color.White, Color.Tan, Color.Blue, Color.Brown }), 
-            });
-            playerGO.AddComponent(new CircleCollider(playerGO, Vector2.Zero, 5));
+            }, new Color[] { Color.Transparent, Color.White, Color.Tan, Color.Blue, Color.Brown }));
 
-            //Create collider wall
-            GameObject wall = new GameObject("Wall", "Wall", new Vector2(200, 200), new Vector2(50, 50));
-            wall.AddComponent(new Shape2D(Color.Gray));
-            //wall.AddComponent(new BoxCollider(wall));
-            wall.AddComponent(new CircleCollider(wall, Vector2.Zero, 50));
+            playerGO.AddComponent<CircleCollider>(playerGO);
+            playerGO.SetComponent<CircleCollider>(new CircleCollider(Vector2.Zero, 5));
+
+            /*            //Create collider wall
+                        GameObject wall = new GameObject("Wall", "Wall", new Vector2(200, 200), new Vector2(50, 50));
+                        //wall.AddComponent(new Shape2D(Color.Gray));
+                        //wall.AddComponent(new BoxCollider(wall));
+                        //wall.AddComponent(new CircleCollider( Vector2.Zero, 50));
+                        wall.AddComponent<Shape2D>();
+                        wall.AddComponent<CircleCollider>();*/
         }
 
         public override void Update()
@@ -52,8 +57,10 @@ namespace GameEngine.Engine
             moveDir = left ? moveDir + new Vector2(-1, 0) : moveDir;
             moveDir = right ? moveDir + new Vector2(1, 0) : moveDir;
 
-            Collider col = playerGO.GetComponent<CircleCollider>(null);
+           Collider col = (Collider)playerGO.GetComponent<CircleCollider>();
            playerGO.Move(col, moveDir * moveSpeed);
+
+            Log.DebugLog($"X: {playerGO.position.x} Y: {playerGO.position.y}");
         }
 
         public override void OnDraw()
