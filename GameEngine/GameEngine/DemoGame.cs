@@ -40,13 +40,10 @@ namespace GameEngine.Engine
             playerGO.AddComponent<CircleCollider>(playerGO);
             playerGO.SetComponent<CircleCollider>(new CircleCollider(Vector2.Zero, 5));
 
-            /*            //Create collider wall
-                        GameObject wall = new GameObject("Wall", "Wall", new Vector2(200, 200), new Vector2(50, 50));
-                        //wall.AddComponent(new Shape2D(Color.Gray));
-                        //wall.AddComponent(new BoxCollider(wall));
-                        //wall.AddComponent(new CircleCollider( Vector2.Zero, 50));
-                        wall.AddComponent<Shape2D>();
-                        wall.AddComponent<CircleCollider>();*/
+            //Create collider wall
+            GameObject wall = new GameObject("Wall", "Wall", new Vector2(100, 100), new Vector2(10, 10));
+            wall.AddComponent<CircleCollider>(wall);
+            wall.SetComponent<CircleCollider>(new CircleCollider(new Vector2(100, 100), 10));
         }
 
         public override void Update()

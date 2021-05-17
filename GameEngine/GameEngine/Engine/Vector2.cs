@@ -37,7 +37,9 @@ namespace GameEngine.Engine
 
         public static float Distance(Vector2 p1,Vector2 p2)
         {
-           return (float)Math.Sqrt(Math.Pow(p2.x - p1.x, 2) + Math.Pow(p2.y - p1.y, 2));
+            float dist = (float)Math.Sqrt(Math.Pow(p2.x - p1.x, 2) + Math.Pow(p2.y - p1.y, 2));
+            Log.DebugLog(dist.ToString());
+            return dist;
         }
 
         public static Vector2 Flatten(Vector2 nonFlatVector)

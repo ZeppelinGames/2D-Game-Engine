@@ -285,7 +285,7 @@ namespace GameEngine.Engine
                             float posX = (sprite.position.x + (x*sprite.scale.x)) - (spriteArray[y].Length / 2);
                             float posY = (sprite.position.y + (y*sprite.scale.y)) - (spriteArray.Length / 2);
 
-                            g.FillRectangle(new SolidBrush(sprite.shapeColor[color]), posX, posY, sprite.scale.x, sprite.scale.y);
+                            g.FillRectangle(new SolidBrush(sprite.shapeColor[color]), sprite.parent.position.x +  posX, sprite.parent.position.y + posY, sprite.scale.x, sprite.scale.y);
                         }
                     }
                 }
@@ -293,7 +293,7 @@ namespace GameEngine.Engine
 
             foreach (Collider col in allColliders)
             {
-                g.DrawEllipse(new Pen(new SolidBrush(Color.Magenta),3), col.parent.position.x, col.parent.position.y, col.scale.x, col.scale.y);
+                g.DrawEllipse(new Pen(new SolidBrush(Color.Magenta),1), col.parent.position.x, col.parent.position.y, col.scale.x, col.scale.y);
             }
         }
         #endregion

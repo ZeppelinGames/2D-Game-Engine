@@ -21,7 +21,7 @@ namespace GameEngine.Engine
             float dist = Vector2.Distance(pos, this.position);
             if (dist <= (rad + scale.x))
             {
-                Log.DebugLog("CIRCLE COL");
+                Log.DebugLog($"CIRCLE COL {dist}");
                 return true;
             }
             return false;

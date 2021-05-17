@@ -68,65 +68,48 @@ namespace GameEngine.Engine
                     Log.DebugWarning($"Checking {col.parent.name} with {m_Col.parent.name}");
                     if (m_Col.isColliding(col.position, col.scale))
                     {
-                        Log.DebugWarning("Colliding");
-                    }
-                }
-            }
-            this.position += moveDirection; 
+                        Vector2 colDir = m_Col.position - this.position;
+                        Vector2 normColDir = Vector2.Flatten(colDir);
 
-          /*  if (m_Col != null)
-            {
-                foreach (Collider col in Engine.allColliders)
-                {
-                    if(col != null) {
-                        if (col != m_Col)
+                        //STUCK - MOVE BACK
+                        if (Vector2.Flatten(moveDirection) == normColDir)
                         {
-                            if (col.isColliding(m_Col.position, m_Col.scale))
+                            this.position -= moveDirection;
+                        }
+
+                        Vector2 flatMoveDir = Vector2.Flatten(moveDirection);
+                        if (flatMoveDir.x >= normColDir.x)
+                        {
+                            if (moveDirection.x < 0)
                             {
-                                Vector2 colDir = m_Col.position - this.position;
-                                Vector2 normColDir = Vector2.Flatten(colDir);
-
-                                //STUCK - MOVE BACK
-                                if (Vector2.Flatten(moveDirection) == normColDir)
-                                {
-                                    this.position -= moveDirection;
-                                }
-
-                                Vector2 flatMoveDir = Vector2.Flatten(moveDirection);
-                                if (flatMoveDir.x >= normColDir.x)
-                                {
-                                    if (moveDirection.x < 0)
-                                    {
-                                        moveDirection.x = 0;
-                                    }
-                                }
-                                if (flatMoveDir.x <= normColDir.x)
-                                {
-                                    if (moveDirection.x > 0)
-                                    {
-                                        moveDirection.x = 0;
-                                    }
-                                }
-                                if (flatMoveDir.y >= normColDir.y)
-                                {
-                                    if (flatMoveDir.y < 0)
-                                    {
-                                        moveDirection.y = 0;
-                                    }
-                                }
-                                if (flatMoveDir.y <= normColDir.y)
-                                {
-                                    if (flatMoveDir.y > 0)
-                                    {
-                                        moveDirection.y = 0;
-                                    }
-                                }
+                                moveDirection.x = 0;
+                            }
+                        }
+                        if (flatMoveDir.x <= normColDir.x)
+                        {
+                            if (moveDirection.x > 0)
+                            {
+                                moveDirection.x = 0;
+                            }
+                        }
+                        if (flatMoveDir.y >= normColDir.y)
+                        {
+                            if (flatMoveDir.y < 0)
+                            {
+                                moveDirection.y = 0;
+                            }
+                        }
+                        if (flatMoveDir.y <= normColDir.y)
+                        {
+                            if (flatMoveDir.y > 0)
+                            {
+                                moveDirection.y = 0;
                             }
                         }
                     }
                 }
             }
-            this.position += moveDirection;*/
+            this.position += moveDirection; 
         }
 
         public void Destroy()
